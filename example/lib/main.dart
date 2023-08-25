@@ -206,6 +206,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: const Uuid().v4(),
       text: message.text,
+      status: types.Status.seen,
     );
 
     _addMessage(textMessage);
@@ -222,16 +223,52 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  Widget _statusBuilder(BuildContext context, types.Message message,
+          bool currentUserIsAuthor, ChatTheme theme) =>
+      Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              '${DateTime.now()}',
+              style: currentUserIsAuthor
+                  ? theme.sentMessageCaptionTextStyle
+                  : theme.receivedMessageCaptionTextStyle,
+            ),
+            message.showStatus! && currentUserIsAuthor
+                ? MessageStatus(status: message.status)
+                : Container(),
+          ],
+        ),
+      );
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Chat(
+          theme: DefaultChatTheme(
+            seenIcon: Image.asset(
+              'assets/icon-seen.png',
+              package: 'flutter_chat_ui',
+            ),
+            deliveredIcon: Image.asset(
+              'assets/icon-delivered.png',
+              package: 'flutter_chat_ui',
+            ),
+            captionTextPadding:
+                const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+          ),
           messages: _messages,
           onAttachmentPressed: _handleAttachmentPressed,
           onMessageTap: _handleMessageTap,
           onPreviewDataFetched: _handlePreviewDataFetched,
           onSendPressed: _handleSendPressed,
-          showUserAvatars: true,
-          showUserNames: true,
+          showingOptions: const ShowingOption(
+            showUserAvatars: true,
+            showUserNames: true,
+            showCaptionUnderTextMessage: true,
+          ),
+          textMessageCaptionFormatter: () => '99/99/9999',
           user: _user,
         ),
       );

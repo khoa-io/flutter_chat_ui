@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../flutter_chat_ui.dart';
 import 'widgets/message/system_message.dart';
 import 'widgets/typing_indicator.dart';
 import 'widgets/unread_header.dart';
@@ -103,6 +104,7 @@ abstract class ChatTheme {
     required this.sentMessageLinkDescriptionTextStyle,
     required this.sentMessageLinkTitleTextStyle,
     required this.statusIconPadding,
+    required this.captionTextPadding,
     required this.systemMessageTheme,
     required this.typingIndicatorTheme,
     required this.unreadHeaderTheme,
@@ -264,6 +266,9 @@ abstract class ChatTheme {
   /// Padding around status icons.
   final EdgeInsets statusIconPadding;
 
+  /// Padding around caption text.
+  final EdgeInsets captionTextPadding;
+
   /// Theme for the system message. Will not have an effect if a custom builder
   /// is provided.
   final SystemMessageTheme systemMessageTheme;
@@ -408,6 +413,7 @@ class DefaultChatTheme extends ChatTheme {
       height: 1.375,
     ),
     super.statusIconPadding = const EdgeInsets.symmetric(horizontal: 4),
+    super.captionTextPadding = const EdgeInsets.symmetric(horizontal: 4),
     super.systemMessageTheme = const SystemMessageTheme(
       margin: EdgeInsets.only(
         bottom: 24,
@@ -577,6 +583,7 @@ class DarkChatTheme extends ChatTheme {
       height: 1.375,
     ),
     super.statusIconPadding = const EdgeInsets.symmetric(horizontal: 4),
+    super.captionTextPadding = const EdgeInsets.symmetric(horizontal: 4),
     super.systemMessageTheme = const SystemMessageTheme(
       margin: EdgeInsets.only(
         bottom: 24,
